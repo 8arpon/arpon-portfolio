@@ -30,6 +30,29 @@ Hi, I'm **Arpon Sarker** — a passionate **Software Developer & Automation Engi
 
 ---
 
+## 📁 Project Structure
+```text
+arpon-portfolio/
+├── assets/
+│   ├── css/
+│   │   └── style.css            # Core stylesheets & responsive styles
+│   ├── js/
+│   │   └── script.js            # Interactive logic, dark mode, animations
+│   ├── images/
+│   │   ├── arpon-logo-darkmode.png
+│   │   ├── arpon-logo-tight.png
+│   │   └── arpon-sarker-profile.jpg
+│   └── docs/
+│       └── Arpon_Sarker_Resume.pdf
+├── index.html                   # Main landing page
+├── resume.html                  # Interactive resume viewer page
+├── robots.txt                   # Search crawler directives
+├── sitemap.xml                  # SEO search index map
+└── README.md
+```
+
+---
+
 ## 📬 Contact & Connect
 - **Website:** [arponsarker.bond](https://arponsarker.bond/)
 - **GitHub:** [@8arpon](https://github.com/8arpon)

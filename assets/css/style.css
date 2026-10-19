@@ -41,48 +41,54 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.navbar { 
-    position: fixed; 
-    top: 18px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    width: -moz-fit-content;
-    width: fit-content;
-    max-width: calc(100% - 32px); 
-    z-index: 1000; 
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(11, 17, 32, 0.55);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
+/* Modern Fluid Glass Header (Rakib-inspired Layout & Pure Liquid Glass Aesthetic) */
+.navbar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 24px 0;
+    transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.navbar-wrapper.scrolled {
+    padding: 14px 0;
+}
+
+.navbar-inner-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.nav-container {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scrolled Liquid Glass Effect: Deep Blur, Frosted Sheen & Shimmer Border */
+.navbar-wrapper.scrolled .nav-container,
+.nav-container.scrolled {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(11, 17, 32, 0.40);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
     border: 1px solid rgba(255, 255, 255, 0.16);
-    border-top: 1px solid rgba(255, 255, 255, 0.45);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 100px;
+    border-top: 1px solid rgba(255, 255, 255, 0.38);
     box-shadow: 
-        0 20px 50px -12px rgba(0, 0, 0, 0.65),
-        0 8px 24px -4px rgba(0, 0, 0, 0.4),
-        inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.35),
-        inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar.scrolled {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(10, 15, 28, 0.78);
-    backdrop-filter: blur(28px) saturate(210%);
-    -webkit-backdrop-filter: blur(28px) saturate(210%);
-    border-color: rgba(255, 255, 255, 0.22);
-    border-top-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 
-        0 24px 60px -10px rgba(0, 0, 0, 0.8),
-        0 10px 30px -4px rgba(0, 0, 0, 0.5),
-        inset 0 1.5px 2.5px 0 rgba(255, 255, 255, 0.45),
-        inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.5);
-}
-
-.nav-container { 
-    padding: 6px 10px 6px 18px; 
-    display: flex; 
-    align-items: center; 
-    gap: 16px; 
+        0 20px 50px -10px rgba(0, 0, 0, 0.65),
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.25);
 }
 
 .nav-brand {
@@ -94,8 +100,8 @@ body {
     flex-shrink: 0;
 }
 .nav-brand:hover {
-    opacity: 0.9;
-    filter: brightness(1.1);
+    opacity: 0.92;
+    transform: scale(1.02);
 }
 .brand-logo-img {
     height: 42px;
@@ -103,7 +109,7 @@ body {
     max-width: 140px;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 .brand-logo-dark {
     display: block;
@@ -129,7 +135,7 @@ body.light-mode .brand-logo-light {
     padding: 0; 
     margin: 0; 
     display: flex; 
-    gap: 2px; 
+    gap: 28px; 
     align-items: center; 
 }
 
@@ -137,71 +143,111 @@ body.light-mode .brand-logo-light {
     display: none;
 }
 
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 8px;
-    flex-shrink: 0;
-}
-
+/* Nav Link with Floating Glowing Animated Underline */
 .nav-link { 
+    position: relative;
     text-decoration: none; 
     color: var(--text-muted); 
-    font-size: 14px; 
+    font-size: 15px; 
     font-family: 'Montserrat', sans-serif; 
-    font-weight: 600; 
-    padding: 8px 16px; 
-    border-radius: 100px; 
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+    font-weight: 500; 
+    padding: 6px 2px;
+    transition: color 0.3s ease; 
     white-space: nowrap;
-    border: 1px solid transparent;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-underline {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #38bdf8 0%, #a855f7 100%);
+    border-radius: 4px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
 }
 
 .nav-link:hover { 
     color: #ffffff; 
-    background: rgba(255, 255, 255, 0.08); 
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+.nav-link:hover .nav-underline,
+.nav-link.active .nav-underline { 
+    width: 100%;
 }
 .nav-link.active { 
     color: #ffffff; 
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%); 
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.25),
-        inset 0 1px 1.5px rgba(255, 255, 255, 0.35); 
-    border-color: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
 }
 
-.navbar .btn-secondary { 
-    height: 38px; 
-    padding: 0 18px; 
-    border-radius: 100px; 
-    font-size: 13px; 
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600; 
-    white-space: nowrap;
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: 8px;
     flex-shrink: 0;
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(168, 85, 247, 0.12) 100%); 
-    color: #38bdf8; 
-    cursor: pointer; 
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
-    display: inline-flex; 
-    align-items: center; 
-    text-decoration: none; 
+}
+
+/* In-Nav Theme Toggle Button (Clean Round Glass Circle with 360-rotate) */
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), inset 0 1px 1.5px rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    color: #38bdf8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
 }
-.navbar .btn-secondary:hover { 
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.32) 0%, rgba(168, 85, 247, 0.25) 100%); 
-    border-color: rgba(56, 189, 248, 0.7); 
+.theme-toggle:hover {
+    transform: rotate(20deg) scale(1.08);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 16px rgba(56, 189, 248, 0.3);
     color: #ffffff;
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.4s ease;
+}
+
+/* Hire Me / View Resume Button with Outline Glow */
+.btn-hire-me {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-hire-me:hover {
+    background: #38bdf8;
+    color: #0b1120;
+    border-color: #38bdf8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
 }
 
 /* Clean, Modern Heading Typography (Montserrat) */
@@ -2050,36 +2096,7 @@ body.light-mode .hero-social-btn:hover {
 .footer-dots { display: flex; gap: 6px; }
 .footer-dots span { width: 4px; height: 4px; background-color: var(--accent-teal); border-radius: 50%; box-shadow: 0 0 6px var(--accent-teal); }
 
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 32px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(11, 17, 32, 0.55);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-top: 1px solid rgba(255, 255, 255, 0.45);
-    color: var(--accent-teal);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1001;
-    box-shadow: 
-        0 14px 35px -8px rgba(0, 0, 0, 0.6),
-        inset 0 1.5px 2px rgba(255, 255, 255, 0.35);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.theme-toggle:hover {
-    transform: translateY(-2px) scale(1.08);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 25px rgba(56, 189, 248, 0.35), inset 0 1.5px 2px rgba(255, 255, 255, 0.5);
-    border-color: rgba(56, 189, 248, 0.6);
-    color: #ffffff;
-}
 
 /* Floating Scroll to Top Button (Bottom-Right) */
 .scroll-to-top {
@@ -2289,91 +2306,44 @@ body.light-mode h1 {
 }
 /* HIGHLIGHT END */
 
-body.light-mode .navbar {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.45) 100%);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+body.light-mode .navbar-wrapper.scrolled .nav-container,
+body.light-mode .nav-container.scrolled {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.95);
     border-top: 1px solid #ffffff;
     box-shadow: 
-        0 14px 35px -8px rgba(15, 23, 42, 0.08), 
-        0 4px 12px -2px rgba(15, 23, 42, 0.04),
+        0 18px 45px -8px rgba(15, 23, 42, 0.10), 
+        0 6px 16px -2px rgba(15, 23, 42, 0.05),
         inset 0 1.5px 2px #ffffff;
-}
-
-body.light-mode .navbar.scrolled {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
-    backdrop-filter: blur(28px) saturate(210%);
-    -webkit-backdrop-filter: blur(28px) saturate(210%);
-    box-shadow: 
-        0 18px 40px -8px rgba(15, 23, 42, 0.12), 
-        0 6px 16px -2px rgba(15, 23, 42, 0.06),
-        inset 0 1.5px 2px #ffffff;
-}
-
-body.light-mode .card {
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 
-        0 10px 25px -5px rgba(15, 23, 42, 0.05),
-        0 1px 3px rgba(15, 23, 42, 0.03);
-}
-
-body.light-mode .card::before,
-body.light-mode .card::after {
-    display: none !important;
-}
-
-body.light-mode .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-        0 18px 36px -10px rgba(15, 23, 42, 0.12),
-        0 0 25px rgba(2, 132, 199, 0.15);
-    border-color: rgba(2, 132, 199, 0.35);
-}
-
-body.light-mode .image-card { 
-    background: #FFFFFF; 
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 
-        0 14px 30px -10px rgba(15, 23, 42, 0.08);
-}
-body.light-mode .image-card::after {
-    display: none;
-}
-
-body.light-mode .image-label { 
-    background: rgba(15, 23, 42, 0.85); 
-    color: #FFFFFF;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
 }
 
 body.light-mode .nav-link {
     color: #475569;
 }
 body.light-mode .nav-link:hover {
-    color: #0F172A;
-    background: rgba(0, 0, 0, 0.05);
+    color: #0284c7;
 }
 body.light-mode .nav-link.active {
-    color: #0F172A;
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    color: #0284c7;
+    font-weight: 600;
 }
-body.light-mode .navbar .btn-secondary {
-    background: #0284C7;
-    color: #FFFFFF;
-    border: none;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+body.light-mode .nav-underline {
+    background: linear-gradient(90deg, #0284c7 0%, #7c3aed 100%);
+    box-shadow: 0 0 8px rgba(2, 132, 199, 0.4);
 }
-body.light-mode .navbar .btn-secondary:hover {
-    background: #0369A1;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+body.light-mode .btn-hire-me {
+    background: rgba(2, 132, 199, 0.08);
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.4);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+}
+body.light-mode .btn-hire-me:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
 }
 
 body.light-mode .project-card {
@@ -2564,37 +2534,40 @@ body.light-mode p.text-muted {
         padding-top: 86px; 
     }
     
-    .navbar { 
-        width: calc(100% - 84px); 
-        max-width: calc(100% - 84px);
-        left: 12px;
-        transform: none;
-        top: 14px; 
-        border-radius: 100px;
-        padding: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(11, 17, 32, 0.70);
-        backdrop-filter: blur(24px) saturate(200%);
-        -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-top: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 
-            0 14px 35px -8px rgba(0, 0, 0, 0.65),
-            inset 0 1px 1.5px rgba(255, 255, 255, 0.3);
+    .navbar-wrapper {
+        padding: 12px 0;
+    }
+    .navbar-wrapper.scrolled {
+        padding: 10px 0;
     }
     
-    .navbar.scrolled {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(10, 15, 28, 0.88);
-        box-shadow: 
-            0 16px 40px -8px rgba(0, 0, 0, 0.8),
-            inset 0 1px 1.5px rgba(255, 255, 255, 0.4);
+    .navbar-inner-container {
+        padding: 0 12px;
     }
-    
+
     .nav-container { 
-        padding: 6px 10px 6px 16px; 
+        padding: 8px 12px 8px 14px; 
         justify-content: space-between; 
         align-items: center;
         gap: 12px;
         position: relative;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(11, 17, 32, 0.65);
+        backdrop-filter: blur(24px) saturate(200%);
+        -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-top: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 
+            0 12px 30px -8px rgba(0, 0, 0, 0.65),
+            inset 0 1px 1.5px rgba(255, 255, 255, 0.25);
+    }
+    
+    .navbar-wrapper.scrolled .nav-container,
+    .nav-container.scrolled {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(10, 15, 28, 0.85);
+        box-shadow: 
+            0 16px 40px -8px rgba(0, 0, 0, 0.8),
+            inset 0 1px 1.5px rgba(255, 255, 255, 0.35);
     }
 
     .brand-logo-img {
@@ -2720,7 +2693,7 @@ body.light-mode p.text-muted {
     }
     
     /* Light Mode Mobile Nav */
-    body.light-mode .navbar {
+    body.light-mode .nav-container {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
         backdrop-filter: blur(24px) saturate(200%);
         -webkit-backdrop-filter: blur(24px) saturate(200%);
@@ -2903,11 +2876,8 @@ body.light-mode p.text-muted {
         height: 36px;
     }
     
-    /* Theme Toggle (Exact vertical middle alignment with mobile navbar) */
+    /* Theme Toggle inside mobile nav-actions */
     .theme-toggle { 
-        top: 21px;
-        right: 14px; 
-        bottom: auto;
         width: 38px; 
         height: 38px; 
     }

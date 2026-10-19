@@ -107,7 +107,7 @@
     </script>
 
     <!-- Stylesheets & Fonts -->
-    <link rel="stylesheet" href="assets/css/style.css?v=5.3">
+    <link rel="stylesheet" href="assets/css/style.css?v=5.9">
     
     <!-- Streamlined High-Performance Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -165,11 +165,6 @@
         <section id="home" class="page-section bento-grid">
             
             <div class="card intro-card physics-card scroll-reveal">
-                <div class="human-avail-pill">
-                    <span class="status-ping-dot"></span>
-                    <span>Available for internships & freelance work</span>
-                </div>
-                
                 <h2 id="hello-greet" class="changing-greet">Hello</h2>
                 <h1>I'm <span class="typing-text grad-shimmer-text"></span></h1>
                 
@@ -245,11 +240,13 @@
                     </div>
                 </div>
 
-                <div class="df-screen-card">
+                <div class="df-screen-card" id="mac-terminal-card">
                     <div class="df-screen-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
+                        <div class="mac-traffic-lights">
+                            <button class="dot red" id="mac-btn-close" aria-label="Close Terminal" title="Close (Hide temporarily)"></button>
+                            <button class="dot yellow" id="mac-btn-minimize" aria-label="Minimize Terminal" title="Minimize to Dock"></button>
+                            <button class="dot green" id="mac-btn-fullscreen" aria-label="Full Window Focus" title="Full Focus Mode"></button>
+                        </div>
                         <span class="df-screen-title">arpon@workspace ~ $</span>
                     </div>
                     <div class="df-screen-code">
@@ -258,6 +255,22 @@
                         &nbsp;&nbsp;academics: <span class="code-str">'CSE 7th Sem @ DIU'</span>,<br>
                         &nbsp;&nbsp;stack: [<span class="code-str">'n8n'</span>, <span class="code-str">'Python'</span>, <span class="code-str">'Java'</span>]<br>
                         };
+                    </div>
+                </div>
+
+                <!-- macOS Interactive Dock scoped right inside this Hero Card section -->
+                <div class="mac-dock-bar" id="mac-dock-bar" aria-label="macOS Dock">
+                    <div class="mac-dock-inner">
+                        <button class="mac-dock-item is-running" id="dock-terminal-item" aria-label="Restore Terminal Window" title="Terminal (Click to restore)">
+                            <div class="mac-dock-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="4 17 10 11 4 5"></polyline>
+                                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                                </svg>
+                            </div>
+                            <span class="mac-dock-indicator" id="dock-terminal-indicator"></span>
+                            <span class="mac-dock-tooltip">Terminal</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -900,6 +913,6 @@
         <span id="toast-message">Email copied to clipboard!</span>
     </div>
 
-    <script src="assets/js/script.js?v=3.2"></script>
+    <script src="assets/js/script.js?v=3.5"></script>
 </body>
 </html>

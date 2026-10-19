@@ -574,6 +574,7 @@ p { font-size: 15px; max-width: 600px; margin-bottom: 20px; }
     inset: 0;
     pointer-events: none;
     z-index: 10;
+    transition: opacity 0.5s ease;
 }
 
 .float-tech-badge {
@@ -591,7 +592,7 @@ p { font-size: 15px; max-width: 600px; margin-bottom: 20px; }
     border-top: 1px solid rgba(255, 255, 255, 0.35);
     box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     animation: float-around 4s ease-in-out infinite alternate;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
     z-index: 10;
 }
 
@@ -602,12 +603,42 @@ p { font-size: 15px; max-width: 600px; margin-bottom: 20px; }
    - e2 (Terminal Prompt): Top-Right Corner
    - e3 (n8n Workflow): Mid-Left Orbit
    - e4 (Cloud/APIs): Mid-Right Orbit
-   - e5 (</> Code Brackets): Bottom-Left Flank (Clear of terminal code) */
+   - e5 (</> Code Brackets): Bottom-Left Flank */
 .float-tech-badge.e1 { top: 7%; left: 7%; animation-duration: 3.8s; animation-delay: 0s; color: #38BDF8; }
 .float-tech-badge.e2 { top: 7%; right: 7%; animation-duration: 4.4s; animation-delay: 0.6s; color: #10B981; }
 .float-tech-badge.e3 { top: 34%; left: 6%; animation-duration: 3.9s; animation-delay: 1.2s; color: #EA4B71; }
 .float-tech-badge.e4 { top: 34%; right: 6%; animation-duration: 4.6s; animation-delay: 0.3s; color: #F59E0B; }
 .float-tech-badge.e5 { top: 58%; right: 6%; animation-duration: 3.7s; animation-delay: 0.9s; color: #818CF8; }
+
+/* Window States effect on Tech Badges */
+/* On Minimize / Close: Badges orbit gracefully outward around expanded avatar */
+.df-illustration-card.window-minimized .float-tech-badge.e1,
+.df-illustration-card.window-closed .float-tech-badge.e1 {
+    transform: translate(-4px, 15px) scale(1.1);
+}
+.df-illustration-card.window-minimized .float-tech-badge.e2,
+.df-illustration-card.window-closed .float-tech-badge.e2 {
+    transform: translate(4px, 15px) scale(1.1);
+}
+.df-illustration-card.window-minimized .float-tech-badge.e3,
+.df-illustration-card.window-closed .float-tech-badge.e3 {
+    transform: translate(-10px, 30px) scale(1.15);
+}
+.df-illustration-card.window-minimized .float-tech-badge.e4,
+.df-illustration-card.window-closed .float-tech-badge.e4 {
+    transform: translate(10px, 30px) scale(1.15);
+}
+.df-illustration-card.window-minimized .float-tech-badge.e5,
+.df-illustration-card.window-closed .float-tech-badge.e5 {
+    transform: translate(8px, 20px) scale(1.12);
+}
+
+/* On Fullscreen: Floating badges fade out to grant clean focus to maximized terminal */
+.df-illustration-card.window-fullscreen .float-tech-badge {
+    opacity: 0;
+    transform: scale(0.6);
+    pointer-events: none;
+}
 
 body.light-mode .float-tech-badge {
     background: rgba(255, 255, 255, 0.92);
@@ -715,6 +746,7 @@ body.light-mode .float-tech-badge {
 }
 
 /* Floating Code Screen Card */
+/* Floating Code Screen Card (Interactive macOS Window) */
 .df-screen-card {
     width: 100%;
     max-width: 380px;
@@ -726,6 +758,19 @@ body.light-mode .float-tech-badge {
     z-index: 6;
     position: relative;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.45s ease, 
+                box-shadow 0.4s ease, 
+                filter 0.45s ease,
+                max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center bottom;
+}
+
+body.light-mode .df-screen-card {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }
 
 .df-screen-header {
@@ -733,37 +778,344 @@ body.light-mode .float-tech-badge {
     padding: 8px 12px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    user-select: none;
+}
+
+body.light-mode .df-screen-header {
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mac-traffic-lights {
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
 .df-screen-header .dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease, box-shadow 0.2s ease;
 }
 
-.df-screen-header .dot.red { background: #ef4444; }
-.df-screen-header .dot.yellow { background: #f59e0b; }
-.df-screen-header .dot.green { background: #10b981; }
+.df-screen-header .dot:hover {
+    transform: scale(1.18);
+}
+
+.df-screen-header .dot:active {
+    transform: scale(0.92);
+}
+
+.df-screen-header .dot.red { 
+    background: #ef4444; 
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+.df-screen-header .dot.yellow { 
+    background: #f59e0b; 
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+.df-screen-header .dot.green { 
+    background: #10b981; 
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+/* Subtle icons appear on hover over macOS traffic lights */
+.df-screen-header .dot::after {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 8px;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.65);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+}
+.mac-traffic-lights:hover .dot.red::after { content: "×"; font-size: 10px; opacity: 1; }
+.mac-traffic-lights:hover .dot.yellow::after { content: "–"; opacity: 1; }
+.mac-traffic-lights:hover .dot.green::after { content: "+"; font-size: 9px; opacity: 1; }
 
 .df-screen-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--text-muted);
-    margin-left: 8px;
+    margin-left: 6px;
+    letter-spacing: 0.2px;
 }
 
 .df-screen-code {
-    padding: 12px 16px;
+    padding: 14px 18px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12.5px;
     line-height: 1.6;
     color: #E2E8F0;
+    transition: font-size 0.3s ease;
+}
+
+body.light-mode .df-screen-code {
+    color: #1E293B;
 }
 
 .code-kw { color: #f472b6; font-weight: 600; }
 .code-str { color: #38bdf8; }
+body.light-mode .code-str { color: #0284c7; }
+
+/* ----------------------------------------------------
+   macOS Window States (Close / Genie Minimize / Fullscreen)
+   ---------------------------------------------------- */
+
+/* 1. Closed state (Temporary fade + scale down vanish) */
+.df-screen-card.is-closed {
+    opacity: 0;
+    transform: scale(0.7) translateY(30px);
+    pointer-events: none;
+    filter: blur(8px);
+}
+
+/* 2. macOS Genie Effect towards bottom dock in this card */
+.df-screen-card.is-minimized {
+    transform: translateY(130px) scale(0.18, 0.08) skewX(-6deg);
+    opacity: 0;
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+/* 3. Fullscreen / Focus Mode: Avatar smoothly collapses, Window expands proudly */
+.df-avatar-wrapper {
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                max-height 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+                margin 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 220px;
+}
+
+.df-illustration-card.window-fullscreen .df-avatar-wrapper {
+    transform: scale(0.4) translateY(-40px);
+    opacity: 0;
+    max-height: 0px;
+    margin-bottom: 0px;
+    pointer-events: none;
+}
+
+.df-screen-card.is-fullscreen {
+    max-width: 95%;
+    width: 100%;
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 25px 50px -12px rgba(56, 189, 248, 0.35), 0 0 0 1px rgba(56, 189, 248, 0.3);
+    border-color: rgba(56, 189, 248, 0.4);
+    z-index: 20;
+}
+
+.df-screen-card.is-fullscreen .df-screen-code {
+    font-size: 13.5px;
+    padding: 20px 22px;
+}
+
+/* ----------------------------------------------------
+   Avatar Expansion & Re-centering on Terminal Minimize / Close
+   ---------------------------------------------------- */
+.df-illustration-card.window-minimized .df-avatar-wrapper,
+.df-illustration-card.window-closed .df-avatar-wrapper {
+    transform: translateY(30px) scale(1.22);
+    margin-bottom: 30px;
+}
+
+.df-illustration-card.window-minimized .df-avatar-wrapper .df-avatar-img,
+.df-illustration-card.window-closed .df-avatar-wrapper .df-avatar-img {
+    box-shadow: 0 0 55px rgba(56, 189, 248, 0.65), 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+.df-illustration-card.window-minimized .df-orbit-ring.ring-1,
+.df-illustration-card.window-closed .df-orbit-ring.ring-1 {
+    width: 220px;
+    height: 220px;
+}
+
+.df-illustration-card.window-minimized .df-orbit-ring.ring-2,
+.df-illustration-card.window-closed .df-orbit-ring.ring-2 {
+    width: 250px;
+    height: 250px;
+}
+
+/* ----------------------------------------------------
+   macOS Interactive Dock (Real-Life Sleek Mac Design)
+   ---------------------------------------------------- */
+.mac-dock-bar {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 15;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.mac-dock-bar.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+.mac-dock-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 6px;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+body.light-mode .mac-dock-inner {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.mac-dock-item {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mac-dock-item:hover {
+    transform: translateY(-2px) scale(1.08);
+}
+
+.mac-dock-item:active {
+    transform: translateY(0) scale(0.96);
+}
+
+.mac-dock-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 6.5px;
+    background: linear-gradient(135deg, #1e293b 0%, #090e1a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38BDF8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s ease;
+}
+
+.mac-dock-icon svg {
+    width: 13px;
+    height: 13px;
+    display: block;
+}
+
+body.light-mode .mac-dock-icon {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #0284c7;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mac-dock-item:hover .mac-dock-icon {
+    box-shadow: 0 4px 12px -2px rgba(56, 189, 248, 0.45);
+    border-color: rgba(56, 189, 248, 0.6);
+}
+
+/* Authentic macOS Indicator Dot: Perfectly positioned with balanced top/bottom margin */
+.mac-dock-indicator {
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2.5px;
+    height: 2.5px;
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.mac-dock-item.is-running .mac-dock-indicator {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+body.light-mode .mac-dock-item.is-running .mac-dock-indicator {
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.mac-dock-item.is-minimized .mac-dock-indicator {
+    background: #38BDF8;
+}
+
+body.light-mode .mac-dock-item.is-minimized .mac-dock-indicator {
+    background: #0284c7;
+}
+
+/* Dock Tooltip (macOS style pill above icon) */
+.mac-dock-tooltip {
+    position: absolute;
+    bottom: 46px;
+    background: rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+body.light-mode .mac-dock-tooltip {
+    background: rgba(255, 255, 255, 0.96);
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mac-dock-item:hover .mac-dock-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* macOS Bounce Animation */
+@keyframes mac-dock-bounce {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-12px); }
+    50% { transform: translateY(0); }
+    70% { transform: translateY(-6px); }
+    85% { transform: translateY(0); }
+}
+
+.mac-dock-item.bounce {
+    animation: mac-dock-bounce 0.75s ease;
+}
 
 /* DeveloperFolio "What I Do" Styles */
 .section-lead-text {

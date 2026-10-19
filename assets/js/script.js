@@ -280,6 +280,147 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // 10. macOS Interactive Terminal Window Manager
+    const terminalCard = document.getElementById("mac-terminal-card");
+    const illustrationCard = document.querySelector(".df-illustration-card");
+    const btnClose = document.getElementById("mac-btn-close");
+    const btnMinimize = document.getElementById("mac-btn-minimize");
+    const btnFullscreen = document.getElementById("mac-btn-fullscreen");
+    const dockItem = document.getElementById("dock-terminal-item");
+    const dockIndicator = document.getElementById("dock-terminal-indicator");
+
+    const dockBar = document.getElementById("mac-dock-bar");
+
+    let isClosed = false;
+    let isMinimized = false;
+    let isFullscreen = false;
+    let autoReopenTimer = null;
+
+    function triggerDockBounce() {
+        if (!dockItem) return;
+        dockItem.classList.remove("bounce");
+        // Trigger reflow
+        void dockItem.offsetWidth;
+        dockItem.classList.add("bounce");
+    }
+
+    function updateDockState() {
+        if (!dockItem || !dockBar) return;
+        if (isClosed) {
+            dockItem.classList.remove("is-running", "is-minimized");
+            dockBar.classList.add("is-visible");
+        } else if (isMinimized) {
+            dockItem.classList.remove("is-running");
+            dockItem.classList.add("is-minimized");
+            dockBar.classList.add("is-visible");
+        } else {
+            dockItem.classList.remove("is-minimized");
+            dockItem.classList.add("is-running");
+            dockBar.classList.remove("is-visible");
+        }
+    }
+
+    // 1. Red Button: Close (Temporarily vanish, appears in dock, auto-reopen after 8s or dock click)
+    if (btnClose && terminalCard) {
+        btnClose.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isClosed) return;
+
+            // Exit fullscreen if active
+            if (isFullscreen) {
+                isFullscreen = false;
+                terminalCard.classList.remove("is-fullscreen");
+            }
+            if (illustrationCard) {
+                illustrationCard.classList.remove("window-fullscreen", "window-minimized");
+                illustrationCard.classList.add("window-closed");
+            }
+
+            isClosed = true;
+            isMinimized = false;
+            terminalCard.classList.add("is-closed");
+            updateDockState();
+            triggerDockBounce();
+
+            if (autoReopenTimer) clearTimeout(autoReopenTimer);
+            autoReopenTimer = setTimeout(() => {
+                restoreWindow();
+            }, 8000);
+        });
+    }
+
+    // 2. Yellow Button: Minimize (macOS Genie Effect into hero card's dock & avatar fills space)
+    if (btnMinimize && terminalCard) {
+        btnMinimize.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isMinimized) {
+                restoreWindow();
+                return;
+            }
+
+            // If fullscreen, exit fullscreen first
+            if (isFullscreen) {
+                isFullscreen = false;
+                terminalCard.classList.remove("is-fullscreen");
+            }
+            if (illustrationCard) {
+                illustrationCard.classList.remove("window-fullscreen", "window-closed");
+                illustrationCard.classList.add("window-minimized");
+            }
+
+            isMinimized = true;
+            isClosed = false;
+            terminalCard.classList.add("is-minimized");
+            updateDockState();
+            triggerDockBounce();
+        });
+    }
+
+    // 3. Green Button: Fullscreen / Focus Mode
+    if (btnFullscreen && terminalCard) {
+        btnFullscreen.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isClosed || isMinimized) {
+                restoreWindow();
+            }
+
+            isFullscreen = !isFullscreen;
+            if (isFullscreen) {
+                terminalCard.classList.add("is-fullscreen");
+                if (illustrationCard) {
+                    illustrationCard.classList.remove("window-minimized", "window-closed");
+                    illustrationCard.classList.add("window-fullscreen");
+                }
+            } else {
+                terminalCard.classList.remove("is-fullscreen");
+                if (illustrationCard) illustrationCard.classList.remove("window-fullscreen");
+            }
+        });
+    }
+
+    // Restore window helper function
+    function restoreWindow() {
+        if (autoReopenTimer) clearTimeout(autoReopenTimer);
+        isClosed = false;
+        isMinimized = false;
+        if (terminalCard) {
+            terminalCard.classList.remove("is-closed", "is-minimized");
+        }
+        if (illustrationCard) {
+            illustrationCard.classList.remove("window-minimized", "window-closed");
+        }
+        updateDockState();
+        triggerDockBounce();
+    }
+
+    // Dock Icon Click Handler: Restores terminal window
+    if (dockItem) {
+        dockItem.addEventListener("click", (e) => {
+            e.stopPropagation();
+            restoreWindow();
+        });
+    }
 });
 
 // HIGHLIGHT START: Theme Initialization & Toggle Logic

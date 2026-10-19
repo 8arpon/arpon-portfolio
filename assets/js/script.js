@@ -120,18 +120,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. Navigation Highlight
     const sections = document.querySelectorAll(".page-section");
     const navLinks = document.querySelectorAll(".nav-link");
-    const navbarWrapper = document.querySelector(".navbar-wrapper");
-    const navContainer = document.querySelector(".nav-container");
+    const navbar = document.querySelector(".navbar");
 
     window.addEventListener("scroll", () => {
-        // Dynamic floating glass effect on scroll (smooth transform & liquid blur)
-        if (navbarWrapper) {
-            if (window.scrollY > 30) {
-                navbarWrapper.classList.add("scrolled");
-                if (navContainer) navContainer.classList.add("scrolled");
+        if (navbar) {
+            if (window.scrollY > 20) {
+                navbar.classList.add("scrolled");
             } else {
-                navbarWrapper.classList.remove("scrolled");
-                if (navContainer) navContainer.classList.remove("scrolled");
+                navbar.classList.remove("scrolled");
             }
         }
 

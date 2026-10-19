@@ -140,9 +140,7 @@ body.light-mode .brand-logo-light {
     flex-shrink: 0;
 }
 
-/* Nav Link with Glowing Animated Underline */
 .nav-link { 
-    position: relative;
     text-decoration: none; 
     color: var(--text-muted); 
     font-size: 14px; 
@@ -150,38 +148,19 @@ body.light-mode .brand-logo-light {
     font-weight: 600; 
     padding: 7px 14px; 
     border-radius: 100px; 
-    transition: color 0.25s ease, background 0.25s ease; 
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
     white-space: nowrap;
     border: 1px solid transparent;
-    display: inline-flex;
-    align-items: center;
-}
-
-.nav-underline {
-    position: absolute;
-    bottom: 3px;
-    left: 14px;
-    right: 14px;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #38bdf8 0%, #a855f7 100%);
-    border-radius: 4px;
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
-    pointer-events: none;
 }
 
 .nav-link:hover { 
     color: var(--text-primary); 
-    background: rgba(255, 255, 255, 0.08); 
-}
-.nav-link:hover .nav-underline,
-.nav-link.active .nav-underline { 
-    width: calc(100% - 28px);
+    background: rgba(255, 255, 255, 0.1); 
+    border-color: rgba(255, 255, 255, 0.1);
 }
 .nav-link.active { 
     color: var(--text-primary); 
-    background: rgba(255, 255, 255, 0.12); 
+    background: rgba(255, 255, 255, 0.14); 
     box-shadow: 
         0 4px 15px rgba(0,0,0,0.15),
         inset 0 1px 1px rgba(255, 255, 255, 0.25); 
@@ -2325,18 +2304,14 @@ body.light-mode .nav-link {
     color: #475569;
 }
 body.light-mode .nav-link:hover {
-    color: #0284c7;
-    background: rgba(0, 0, 0, 0.04);
+    color: #0F172A;
+    background: rgba(0, 0, 0, 0.05);
 }
 body.light-mode .nav-link.active {
-    color: #0284c7;
-    background: rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.08);
+    color: #0F172A;
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-body.light-mode .nav-underline {
-    background: linear-gradient(90deg, #0284c7 0%, #7c3aed 100%);
-    box-shadow: 0 0 8px rgba(2, 132, 199, 0.4);
 }
 body.light-mode .navbar .btn-secondary {
     background: #0284C7;
@@ -2441,13 +2416,16 @@ body.light-mode .contact-cta {
 }
 
 body.light-mode .theme-toggle {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-top: 1px solid #ffffff;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08), inset 0 1px 1.5px #ffffff;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: none;
     color: #0F172A;
+}
+
+body.light-mode .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.09);
+    border-color: rgba(0, 0, 0, 0.14);
+    color: #0284C7;
 }
 
 body.light-mode .contact-icon { background-color: rgba(255, 255, 255, 0.9); color: var(--text-primary); border: 1px solid rgba(0, 0, 0, 0.08); }

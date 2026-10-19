@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Resume | Arpon Sarker</title>
+    <meta name="title" content="Resume | Arpon Sarker">
+    <meta name="description" content="Explore and download the official Curriculum Vitae (CV) / Resume of Arpon Sarker, Computer Science & Engineering student at Daffodil International University.">
+    <meta name="author" content="Arpon Sarker">
+    <link rel="canonical" href="https://arponsarker.bond/resume.html">
+    <meta name="theme-color" content="#0B1120">
+
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" href="arpon-logo-darkmode.png">
+    <link rel="apple-touch-icon" href="arpon-logo-darkmode.png">
+
+    <!-- Google Fonts & Stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lato:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=5.1">
+
+    <style>
+        .resume-page-wrapper {
+            padding-top: 100px;
+            padding-bottom: 60px;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .resume-hero-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 36px auto;
+        }
+
+        .resume-hero-header h1 {
+            font-size: 44px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .resume-hero-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .resume-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-resume-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+            color: #FFFFFF;
+            padding: 13px 28px;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-resume-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45);
+            filter: brightness(1.08);
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+        }
+
+        .btn-back-home:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* PDF Viewer Container */
+        .pdf-viewer-card {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-viewer-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-hairline);
+        }
+
+        .pdf-file-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .pdf-embed-frame {
+            width: 100%;
+            height: 820px;
+            border: none;
+            border-radius: 14px;
+            background: #ffffff;
+        }
+
+        .pdf-fallback-note {
+            padding: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .resume-hero-header h1 {
+                font-size: 32px;
+            }
+            .resume-page-wrapper {
+                padding-top: 86px;
+            }
+            .pdf-embed-frame {
+                height: 580px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <nav class="nav-container">
+            <a href="index.html#home" class="nav-brand">
+                <img src="arpon-logo-darkmode.png" alt="Arpon Sarker Logo" class="brand-logo-img brand-logo-dark">
+                <img src="arpon-logo-tight.png" alt="Arpon Sarker Logo" class="brand-logo-img brand-logo-light">
+            </a>
+
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
+                    <li><a href="index.html#home" class="nav-link">Home</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="resume.html" class="nav-link active">Resume</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="mobile-nav-footer">
+                    <a href="Arpon_Sarker_Resume.pdf" download class="btn-cv-mobile">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <a href="Arpon_Sarker_Resume.pdf" download class="btn-secondary nav-cv-desktop">Download PDF</a>
+                <button class="menu-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Top floating Theme Toggle (beside navbar) -->
+    <button class="theme-toggle" aria-label="Toggle Theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+
+    <div class="container resume-page-wrapper">
+        
+        <div class="resume-hero-header scroll-reveal">
+            <div class="blue-line" style="margin: 0 auto 16px auto;"></div>
+            <h1>Curriculum Vitae</h1>
+            <p>A detailed overview of my technical expertise, engineering coursework, hands-on projects, and credentials. Feel free to preview or download a copy for your records.</p>
+            
+            <div class="resume-action-bar">
+                <a href="Arpon_Sarker_Resume.pdf" download="Arpon_Sarker_Resume.pdf" class="btn-resume-download">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download PDF
+                </a>
+                <a href="index.html" class="btn-back-home">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+
+        <div class="pdf-viewer-card scroll-reveal">
+            <div class="pdf-viewer-bar">
+                <div class="pdf-file-info">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Arpon_Sarker_Resume.pdf</span>
+                </div>
+                <span>Official Document Preview</span>
+            </div>
+
+            <object data="Arpon_Sarker_Resume.pdf#toolbar=1&navpanes=0&scrollbar=1" type="application/pdf" class="pdf-embed-frame">
+                <iframe src="Arpon_Sarker_Resume.pdf#toolbar=1" class="pdf-embed-frame" title="Arpon Sarker Resume Preview">
+                    <div class="pdf-fallback-note">
+                        <p>Your browser doesn't support embedded PDFs.</p>
+                        <a href="Arpon_Sarker_Resume.pdf" download class="btn-primary" style="margin-top: 12px; display: inline-flex;">Download Resume PDF</a>
+                    </div>
+                </iframe>
+            </object>
+        </div>
+
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-socials" aria-label="Social media links">
+                <a href="https://github.com/8arpon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="footer-social-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+                <a href="https://x.com/8arpon" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile" class="footer-social-btn">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/arpon-sarker" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="footer-social-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+            </div>
+            <div class="footer-content">
+                <p>&copy; 2026 <span class="footer-author">Arpon Sarker</span> &nbsp;&bull;&nbsp; All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=3.0"></script>
+</body>
+</html>

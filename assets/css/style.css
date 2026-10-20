@@ -1840,7 +1840,9 @@ body.light-mode .pillar-tag {
 /* Action button row at bottom of card */
 .project-footer-actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding-top: 16px;
     margin-top: 4px;

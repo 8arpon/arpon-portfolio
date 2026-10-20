@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 1. Red Button: Close (Temporarily vanish, appears in dock, auto-reopen after 8s or dock click)
+    // 1. Red Button: Close (Terminal Fast Roll-Up / Fold upward like shutter blinds)
     if (btnClose && terminalCard) {
         btnClose.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -332,21 +332,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 isFullscreen = false;
                 terminalCard.classList.remove("is-fullscreen");
             }
+
+            isClosed = true;
+            isMinimized = false;
+            updateDockState();
+
+            // Trigger smooth Roll-Up / Fold animation
+            terminalCard.classList.remove("is-unrolling");
+            terminalCard.classList.add("is-closing");
+
             if (illustrationCard) {
                 illustrationCard.classList.remove("window-fullscreen", "window-minimized");
                 illustrationCard.classList.add("window-closed");
             }
 
-            isClosed = true;
-            isMinimized = false;
-            terminalCard.classList.add("is-closed");
-            updateDockState();
-            triggerDockBounce();
+            setTimeout(() => {
+                if (isClosed) {
+                    terminalCard.classList.remove("is-closing");
+                    terminalCard.classList.add("is-closed");
+                    triggerDockBounce();
+                }
+            }, 460);
 
             if (autoReopenTimer) clearTimeout(autoReopenTimer);
             autoReopenTimer = setTimeout(() => {
                 restoreWindow();
-            }, 8000);
+            }, 9000);
         });
     }
 
@@ -402,10 +413,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Restore window helper function
     function restoreWindow() {
         if (autoReopenTimer) clearTimeout(autoReopenTimer);
+        const wasClosed = isClosed;
         isClosed = false;
         isMinimized = false;
+
         if (terminalCard) {
-            terminalCard.classList.remove("is-closed", "is-minimized");
+            terminalCard.classList.remove("is-closed", "is-minimized", "is-closing");
+            if (wasClosed) {
+                terminalCard.classList.add("is-unrolling");
+                setTimeout(() => {
+                    terminalCard.classList.remove("is-unrolling");
+                }, 460);
+            }
         }
         if (illustrationCard) {
             illustrationCard.classList.remove("window-minimized", "window-closed");

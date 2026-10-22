@@ -200,6 +200,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // 6.1. Mobile Tap-to-Toggle for Developer Showcase Card
+    const illustrationCard = document.querySelector(".df-illustration-card");
+    if (illustrationCard) {
+        illustrationCard.addEventListener("click", (e) => {
+            if (window.innerWidth <= 768) {
+                // If clicking an interactive link or traffic lights, allow default
+                if (e.target.closest("a, button, input")) return;
+                e.stopPropagation();
+                illustrationCard.classList.toggle("is-active");
+            }
+        });
+
+        // Tapping anywhere outside on mobile reverts back to full normal photo
+        document.addEventListener("click", (e) => {
+            if (window.innerWidth <= 768 && !illustrationCard.contains(e.target)) {
+                illustrationCard.classList.remove("is-active");
+            }
+        });
+    }
+
     // 7. Toast Notification Utility
     const toast = document.getElementById("toast-notification");
     const toastMessage = document.getElementById("toast-message");
@@ -281,168 +301,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 10. macOS Interactive Terminal Window Manager
-    const terminalCard = document.getElementById("mac-terminal-card");
-    const illustrationCard = document.querySelector(".df-illustration-card");
-    const btnClose = document.getElementById("mac-btn-close");
-    const btnMinimize = document.getElementById("mac-btn-minimize");
-    const btnFullscreen = document.getElementById("mac-btn-fullscreen");
-    const dockItem = document.getElementById("dock-terminal-item");
-    const dockIndicator = document.getElementById("dock-terminal-indicator");
+    // Terminal interactive card - hover handles opening/closing cleanly via CSS
 
-    const dockBar = document.getElementById("mac-dock-bar");
 
-    let isClosed = false;
-    let isMinimized = false;
-    let isFullscreen = false;
-    let autoReopenTimer = null;
-
-    function triggerDockBounce() {
-        if (!dockItem) return;
-        dockItem.classList.remove("bounce");
-        // Trigger reflow
-        void dockItem.offsetWidth;
-        dockItem.classList.add("bounce");
-    }
-
-    function updateDockState() {
-        if (!dockItem || !dockBar) return;
-        if (isClosed) {
-            dockItem.classList.remove("is-running", "is-minimized");
-            dockBar.classList.add("is-visible");
-        } else if (isMinimized) {
-            dockItem.classList.remove("is-running");
-            dockItem.classList.add("is-minimized");
-            dockBar.classList.add("is-visible");
-        } else {
-            dockItem.classList.remove("is-minimized");
-            dockItem.classList.add("is-running");
-            dockBar.classList.remove("is-visible");
-        }
-    }
-
-    // 1. Red Button: Close (Terminal Fast Roll-Up / Fold upward like shutter blinds)
-    if (btnClose && terminalCard) {
-        btnClose.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (isClosed) return;
-
-            // Exit fullscreen if active
-            if (isFullscreen) {
-                isFullscreen = false;
-                terminalCard.classList.remove("is-fullscreen");
-            }
-
-            isClosed = true;
-            isMinimized = false;
-            updateDockState();
-
-            // Trigger smooth Roll-Up / Fold animation
-            terminalCard.classList.remove("is-unrolling");
-            terminalCard.classList.add("is-closing");
-
-            if (illustrationCard) {
-                illustrationCard.classList.remove("window-fullscreen", "window-minimized");
-                illustrationCard.classList.add("window-closed");
-            }
-
-            setTimeout(() => {
-                if (isClosed) {
-                    terminalCard.classList.remove("is-closing");
-                    terminalCard.classList.add("is-closed");
-                    triggerDockBounce();
-                }
-            }, 460);
-
-            if (autoReopenTimer) clearTimeout(autoReopenTimer);
-            autoReopenTimer = setTimeout(() => {
-                restoreWindow();
-            }, 9000);
-        });
-    }
-
-    // 2. Yellow Button: Minimize (macOS Genie Effect into hero card's dock & avatar fills space)
-    if (btnMinimize && terminalCard) {
-        btnMinimize.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (isMinimized) {
-                restoreWindow();
-                return;
-            }
-
-            // If fullscreen, exit fullscreen first
-            if (isFullscreen) {
-                isFullscreen = false;
-                terminalCard.classList.remove("is-fullscreen");
-            }
-            if (illustrationCard) {
-                illustrationCard.classList.remove("window-fullscreen", "window-closed");
-                illustrationCard.classList.add("window-minimized");
-            }
-
-            isMinimized = true;
-            isClosed = false;
-            terminalCard.classList.add("is-minimized");
-            updateDockState();
-            triggerDockBounce();
-        });
-    }
-
-    // 3. Green Button: Fullscreen / Focus Mode
-    if (btnFullscreen && terminalCard) {
-        btnFullscreen.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (isClosed || isMinimized) {
-                restoreWindow();
-            }
-
-            isFullscreen = !isFullscreen;
-            if (isFullscreen) {
-                terminalCard.classList.add("is-fullscreen");
-                if (illustrationCard) {
-                    illustrationCard.classList.remove("window-minimized", "window-closed");
-                    illustrationCard.classList.add("window-fullscreen");
-                }
-            } else {
-                terminalCard.classList.remove("is-fullscreen");
-                if (illustrationCard) illustrationCard.classList.remove("window-fullscreen");
-            }
-        });
-    }
-
-    // Restore window helper function
-    function restoreWindow() {
-        if (autoReopenTimer) clearTimeout(autoReopenTimer);
-        const wasClosed = isClosed;
-        isClosed = false;
-        isMinimized = false;
-
-        if (terminalCard) {
-            terminalCard.classList.remove("is-closed", "is-minimized", "is-closing");
-            if (wasClosed) {
-                terminalCard.classList.add("is-unrolling");
-                setTimeout(() => {
-                    terminalCard.classList.remove("is-unrolling");
-                }, 460);
-            }
-        }
-        if (illustrationCard) {
-            illustrationCard.classList.remove("window-minimized", "window-closed");
-        }
-        updateDockState();
-        triggerDockBounce();
-    }
-
-    // Dock Icon Click Handler: Restores terminal window
-    if (dockItem) {
-        dockItem.addEventListener("click", (e) => {
-            e.stopPropagation();
-            restoreWindow();
-        });
-    }
-});
-
-// HIGHLIGHT START: Theme Initialization & Toggle Logic
+    // Theme Initialization & Toggle Logic
     const themeToggleBtn = document.querySelector(".theme-toggle");
     const sunIcon = document.querySelector(".sun-icon");
     const moonIcon = document.querySelector(".moon-icon");
@@ -459,20 +321,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Check saved theme; if none, determine by system preference, default to light
-    const savedTheme = localStorage.getItem("theme");
-    const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-    const initialTheme = savedTheme ? savedTheme : (prefersLight ? "light" : "light"); // Default is light as requested ("jeita valo mone hoy (light)")
-    applyTheme(initialTheme);
-
-    // Listen to system preference change if user hasn't explicitly set a preference
-    if (window.matchMedia) {
-        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", (e) => {
-            if (!localStorage.getItem("theme")) {
-                applyTheme(e.matches ? "light" : "dark");
+    // Auto-update Tab Favicon strictly based on Desktop / OS theme (prefers-color-scheme)
+    function updateDesktopFavicon(isDark) {
+        const icons = document.querySelectorAll("link[rel~='icon']");
+        icons.forEach(icon => {
+            if (isDark) {
+                if (icon.getAttribute("media") === "(prefers-color-scheme: dark)" || !icon.hasAttribute("media")) {
+                    icon.href = "assets/images/arpon-logo-darkmode.png";
+                }
+            } else {
+                if (icon.getAttribute("media") === "(prefers-color-scheme: light)" || !icon.hasAttribute("media")) {
+                    icon.href = "assets/images/arpon-logo-tight.png";
+                }
             }
         });
     }
+
+    if (window.matchMedia) {
+        const osDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        updateDesktopFavicon(osDarkQuery.matches);
+        osDarkQuery.addEventListener("change", (e) => {
+            updateDesktopFavicon(e.matches);
+        });
+    }
+
+    // Check saved theme; if none, default to light
+    const savedTheme = localStorage.getItem("theme");
+    const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    const initialTheme = savedTheme ? savedTheme : (prefersLight ? "light" : "light");
+    applyTheme(initialTheme);
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener("click", () => {
@@ -482,4 +359,40 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("theme", newTheme);
         });
     }
-    // HIGHLIGHT END
+
+    // 12. Interactive Project Category Filter
+    const filterButtons = document.querySelectorAll(".project-filter-btn");
+    const projectCards = document.querySelectorAll(".projects-grid .project-card");
+
+    if (filterButtons.length > 0 && projectCards.length > 0) {
+        filterButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const filter = btn.getAttribute("data-filter");
+
+                // Update active button state
+                filterButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                // Filter cards with smooth fade
+                projectCards.forEach(card => {
+                    const cardCategory = card.getAttribute("data-category");
+
+                    if (filter === "all" || cardCategory === filter) {
+                        card.style.display = "flex";
+                        requestAnimationFrame(() => {
+                            card.style.opacity = "1";
+                            card.style.transform = "scale(1)";
+                        });
+                    } else {
+                        card.style.opacity = "0";
+                        card.style.transform = "scale(0.95)";
+                        setTimeout(() => {
+                            if (!btn.classList.contains("active") || btn.getAttribute("data-filter") !== filter) return;
+                            card.style.display = "none";
+                        }, 250);
+                    }
+                });
+            });
+        });
+    }
+});
